@@ -19,7 +19,7 @@ public class Latte {
      * 获取全部的配置
      * @return
      */
-    private static WeakHashMap<String,Object> getConfigurations(){
+    public static WeakHashMap<String,Object> getConfigurations(){
         return Configurator.getInstance().getLatteConfigs();
     }
 
