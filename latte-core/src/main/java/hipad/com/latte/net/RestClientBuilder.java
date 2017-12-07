@@ -34,6 +34,9 @@ public class RestClientBuilder {
     private Context mContext = null;
     private LoaderStyle mLoaderStyle = null;
     private File mFile = null;
+    private String mDownloadDir = null;
+    private String mExtension = null;
+    private String mName = null;
 
     RestClientBuilder(){}//不允许外部的修改
 
@@ -87,6 +90,21 @@ public class RestClientBuilder {
         return this;
     }
 
+    public final RestClientBuilder name(String name) {
+        this.mName = name;
+        return this;
+    }
+
+    public final RestClientBuilder dir(String dir) {
+        this.mDownloadDir = dir;
+        return this;
+    }
+
+    public final RestClientBuilder extension(String extension) {
+        this.mExtension = extension;
+        return this;
+    }
+
 
     private Map<String,Object> checkParams(){
         if(mParams == null){
@@ -106,7 +124,7 @@ public class RestClientBuilder {
     }
 
     public final  RestClient build(){
-        return new RestClient(mUrl,mParams,mRequest,mSuccess,mFailure,mError,mBody,mFile,mContext,mLoaderStyle);
+        return new RestClient(mUrl,mParams,mDownloadDir,mExtension, mName,mRequest,mSuccess,mFailure,mError,mBody,mFile,mContext,mLoaderStyle);
     }
 
 }

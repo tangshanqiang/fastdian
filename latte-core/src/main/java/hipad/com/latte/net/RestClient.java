@@ -14,6 +14,7 @@ import hipad.com.latte.net.callback.IFailure;
 import hipad.com.latte.net.callback.IRequest;
 import hipad.com.latte.net.callback.ISuccess;
 import hipad.com.latte.net.callback.RequestCallbacks;
+import hipad.com.latte.net.download.DownloadHandler;
 import hipad.com.latte.ui.LatteLoader;
 import hipad.com.latte.ui.LoaderStyle;
 import okhttp3.MediaType;
@@ -29,6 +30,9 @@ public class RestClient {
     private final String URL;
     private final WeakHashMap<String ,Object> PARAMS =RestCreator.getParams();
     private final IRequest REQUEST;
+    private final String DOWNLOADDIR  ;
+    private final String EXTENSION ;
+    private final String NAME ;
     private final ISuccess SUCCESS;
     private final IFailure FAILURE;
     private final IError ERROR;
@@ -40,6 +44,9 @@ public class RestClient {
 
     public RestClient(String URL,
                       Map<String, Object> params,
+                      String downloaddir,
+                      String extension,
+                      String name,
                       IRequest request,
                       ISuccess success,
                       IFailure failure,
@@ -50,6 +57,9 @@ public class RestClient {
                       LoaderStyle loaderStyle) {
         this.URL = URL;
         this.PARAMS.putAll(params);
+        this.DOWNLOADDIR = downloaddir;
+        this.EXTENSION = extension;
+        this.NAME = name;
         this.REQUEST = request;
         this.SUCCESS = success;
         this.FAILURE = failure;
@@ -137,6 +147,12 @@ public class RestClient {
     }
     public final void delete(){
         request(HttpMethod.DELETE);
+    }
+
+    public final void download(){
+        new DownloadHandler(URL,REQUEST,DOWNLOADDIR,EXTENSION,NAME,SUCCESS,FAILURE,ERROR)
+        .handleDownload();
+
     }
 
 }
