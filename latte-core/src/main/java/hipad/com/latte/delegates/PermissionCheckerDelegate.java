@@ -12,7 +12,7 @@ import android.support.v7.widget.ContentFrameLayout;
  * 中间层 做权限检查
  */
 public abstract class PermissionCheckerDelegate extends BaseDelegate{
-    public abstract LatteDelegate setRootDelegate();
+    //public abstract LatteDelegate setRootDelegate();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

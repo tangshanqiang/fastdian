@@ -1,12 +1,14 @@
 package hipad.com.latte.net;
 
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.concurrent.TimeUnit;
 
 import hipad.com.latte.app.Config_Type;
 import hipad.com.latte.app.Latte;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
@@ -41,7 +43,17 @@ public class RestCreator {
 
     private static final class OKHttpHolder{
         private  static final int TIME_OUT =60;
-        private static final OkHttpClient OK_HTTP_CLIENT =new OkHttpClient.Builder()
+        private  static OkHttpClient.Builder BUILDER = new OkHttpClient.Builder();
+        private static final ArrayList<Interceptor> INTERCEPTORS = Latte.getConfiguration(Config_Type.INTERCEPTOR);
+        private static OkHttpClient.Builder addIntercepter(){
+            if(INTERCEPTORS !=null && !INTERCEPTORS.isEmpty()){
+                for (Interceptor interceptor : INTERCEPTORS){
+                    BUILDER.addInterceptor(interceptor);
+                }
+            }
+            return BUILDER;
+        }
+        private static final OkHttpClient OK_HTTP_CLIENT =addIntercepter()//new OkHttpClient.Builder()
                 .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
                 .build();
 
